@@ -1,6 +1,5 @@
 package tv.codely.student_grades;
 
-import java.time.Year;
 import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
@@ -30,9 +29,9 @@ public class StudentGradeCalculator {
         this.yearToCalculate = yearToCalculate;
     }
 
-    public Float calculateGrades(final List<Pair<Integer, Float>> examsGrades, final boolean hasReachedMinimumClasses) {
+    public float calculateGrades(final List<Pair<Integer, Float>> examsGrades, final boolean hasReachedMinimumClasses) {
         if (!examsGrades.isEmpty()) {
-            boolean hasToRaiseOnePoint = false;
+            boolean hasToIncreaseOneExtraPoint = false;
 
             for (Map.Entry<Integer, List<Pair<String, Boolean>>> yearlyTeachers : allYearsTeachers.entrySet()) {
                 if (!(yearToCalculate != yearlyTeachers.getKey())) {
@@ -42,15 +41,15 @@ public class StudentGradeCalculator {
                         if (teacher.second() != true) {
                             continue;
                         }
-                        hasToRaiseOnePoint = true;
+                        hasToIncreaseOneExtraPoint = true;
                     }
                 } else {
                     continue;
                 }
             }
 
-            Float gradesSum = 0f;
-            Integer gradesWeightSum = 0;
+            float gradesSum       = 0f;
+            int   gradesWeightSum = 0;
 
             for (Pair<Integer, Float> examGrade : examsGrades) {
                 gradesSum += (examGrade.first() * examGrade.second() / 100);
@@ -59,7 +58,11 @@ public class StudentGradeCalculator {
 
             if (gradesWeightSum == 100) {
                 if (hasReachedMinimumClasses) {
-                    return gradesSum;
+                    if (hasToIncreaseOneExtraPoint) {
+                        return Float.min(10f, gradesSum + 1);
+                    } else {
+                        return gradesSum;
+                    }
                 } else {
                     return 0f;
                 }
