@@ -1,9 +1,19 @@
 package tv.codely.java_basic_skeleton;
 
-public class Greeter {
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-    public String greet(String name) {
-        return "Hello " + name;
+@EqualsAndHashCode
+@RequiredArgsConstructor
+public class Greeter {
+	@NonNull
+	private final String greet;
+
+    public String greet() {
+        return "Hello " + this.greet;
     }
+    
+    
 
 }

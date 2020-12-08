@@ -7,3 +7,9 @@ gradle-app.setting
 
 var/log/*
 !var/log/.gitkeep
+
+.project
+.settings/
+bin/
+.classpath
+
